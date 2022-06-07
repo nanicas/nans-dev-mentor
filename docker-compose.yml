@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+    aulas-php:
+        container_name: aulas-php
+        build:
+            context: ./
+            dockerfile: images/php/Dockerfile
+        depends_on:
+            - aulas-mysql
+        links:
+            - aulas-mysql
+        ports:
+            - "8080:80"
+        networks:
+            - bubble
+        volumes:
+            - ./config/apache/default.conf:/etc/apache2/sites-enabled/default.conf
+            - type: bind
+              source: ./src
+              target: /var/www/html
+    aulas-mysql:
+        container_name: aulas-mysql
+        platform: linux/x86_64
+        image: mysql
+        restart: always
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        ports:
+            - "3306:3306"
+        networks:
+            - bubble
+        volumes:
+            - ./storage/mysql:/var/lib/mysql
+    aulas-phpmyadmin:
+        container_name: aulas-phpmyadmin
+        image: phpmyadmin
+        ports:
+            - "3305:80"
+        restart: always
+        environment:
+            PMA_HOST: aulas-mysql
+            PMA_PASSWORD: ""
+        depends_on:
+            - aulas-mysql
+        networks:
+            - bubble
+volumes:
+    src:
+networks:
+  bubble:
