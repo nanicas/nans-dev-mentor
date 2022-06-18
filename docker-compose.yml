@@ -1,14 +1,14 @@
 version: '3.8'
 services:
-    aulas-php:
-        container_name: aulas-php
+    nocs-mentor-php:
+        container_name: nocs-mentor-php
         build:
             context: ./
             dockerfile: images/php/Dockerfile
         depends_on:
-            - aulas-mysql
+            - nocs-mentor-mysql
         links:
-            - aulas-mysql
+            - nocs-mentor-mysql
         ports:
             - "8080:80"
         networks:
@@ -18,8 +18,8 @@ services:
             - type: bind
               source: ./src
               target: /var/www/html
-    aulas-mysql:
-        container_name: aulas-mysql
+    nocs-mentor-mysql:
+        container_name: nocs-mentor-mysql
         platform: linux/x86_64
         image: mysql
         restart: always
@@ -31,17 +31,17 @@ services:
             - bubble
         volumes:
             - ./storage/mysql:/var/lib/mysql
-    aulas-phpmyadmin:
-        container_name: aulas-phpmyadmin
+    nocs-mentor-phpmyadmin:
+        container_name: nocs-mentor-phpmyadmin
         image: phpmyadmin
         ports:
             - "3305:80"
         restart: always
         environment:
-            PMA_HOST: aulas-mysql
+            PMA_HOST: nocs-mentor-mysql
             PMA_PASSWORD: ""
         depends_on:
-            - aulas-mysql
+            - nocs-mentor-mysql
         networks:
             - bubble
 volumes:
