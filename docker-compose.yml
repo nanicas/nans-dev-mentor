@@ -1,14 +1,14 @@
 version: '3.8'
 services:
-    nocs-mentor-php:
-        container_name: nocs-mentor-php
+    nans-mentor-php:
+        container_name: nans-mentor-php
         build:
             context: ./
             dockerfile: images/php/Dockerfile
         depends_on:
-            - nocs-mentor-mysql
+            - nans-mentor-mysql
         links:
-            - nocs-mentor-mysql
+            - nans-mentor-mysql
         ports:
             - "8080:80"
         networks:
@@ -18,8 +18,8 @@ services:
             - type: bind
               source: ./src
               target: /var/www/html
-    nocs-mentor-mysql:
-        container_name: nocs-mentor-mysql
+    nans-mentor-mysql:
+        container_name: nans-mentor-mysql
         platform: linux/x86_64
         image: mysql
         restart: always
@@ -31,17 +31,17 @@ services:
             - bubble
         volumes:
             - ./storage/mysql:/var/lib/mysql
-    nocs-mentor-phpmyadmin:
-        container_name: nocs-mentor-phpmyadmin
+    nans-mentor-phpmyadmin:
+        container_name: nans-mentor-phpmyadmin
         image: phpmyadmin
         ports:
             - "3305:80"
         restart: always
         environment:
-            PMA_HOST: nocs-mentor-mysql
+            PMA_HOST: nans-mentor-mysql
             PMA_PASSWORD: ""
         depends_on:
-            - nocs-mentor-mysql
+            - nans-mentor-mysql
         networks:
             - bubble
 volumes:
