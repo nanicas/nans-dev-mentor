@@ -2,4 +2,10 @@ Alteração 01, WillPersy.
 
 Alteração 02, Vitor
 
+
 Teste Wagner
+
+public=280a8f750c54bef2aced518db6420bc7
+private=e10bea5beb75d93a581b1cd68cf04ed27da9d01a
+url=https://gateway.marvel.com/v1/public
+timestamp=1656376003
