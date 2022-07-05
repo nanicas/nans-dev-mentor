@@ -1,14 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marvel</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Marvel</title>
 
-    <h1>Aplicação Marvel</h1>
-    
-</body>
+        <script type='text/javascript' src='jquery.js'></script>
+    </head>
+    <body>
+
+        <h1 id='titulo-da-pagina'>Aplicação Marvel</h1>
+
+        <ul>
+
+        </ul>
+
+        <!-- fazer uma request -->
+    </body>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            var timestamp = 1656376003;
+            var apikey = '280a8f750c54bef2aced518db6420bc7';
+            var hash = '7ddcfb59d5048be542ec99f3dbc1a5f9';
+
+            var parametros = {
+                'ts': timestamp,
+                'hash': hash,
+                'apikey': apikey
+            };
+            
+            buscarDadosPersonagem('1009144');
+            buscarDadosPersonagem('1009144');
+            buscarDadosPersonagem('1009144');
+
+            function buscarDadosPersonagem(id) {
+                
+                $.ajax({
+                    url: 'https://gateway.marvel.com/v1/public/characters/' + id,
+                    data: parametros
+                });
+            }
+            
+            function buscarPersonagens() {
+                
+            }
+
+
+        })
+
+    </script>
+
+
+
+
 </html>
