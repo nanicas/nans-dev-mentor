@@ -7,14 +7,40 @@
         <title>Marvel</title>
 
         <script type='text/javascript' src='jquery.js'></script>
+        
+        <style>
+            ul#lista-de-personagens > li > img {
+                width: 100px;
+            }
+            
+            #lado-esquerdo {
+                width: 48%;
+                background: #ccc;
+                display: inline-block;
+            }
+            
+            #lado-direito {
+                width: 48%;
+                    background: purple;
+                    display: inline-block;
+                }
+            
+        </style>
     </head>
     <body>
 
-        <h1 id='titulo-da-pagina'>Aplicação Marvel</h1>
-
-        <ul>
-
-        </ul>
+        <div id='lado-esquerdo'>
+            
+            <h1 id='titulo-da-pagina'>Aplicação Marvel</h1>
+            
+            <ul id='lista-de-personagens'></ul>
+            
+        </div>
+        
+        <div id='lado-direito'>
+            
+        </div>
+        
 
         <!-- fazer uma request -->
     </body>
@@ -34,23 +60,61 @@
                 'apikey': apikey
             };
             
-            buscarDadosPersonagem('1009144');
-            buscarDadosPersonagem('1009144');
-            buscarDadosPersonagem('1009144');
+            buscarPersonagens();
 
-            function buscarDadosPersonagem(id) {
+            function buscarDadosPersonagem(id, callback) {
                 
                 $.ajax({
                     url: 'https://gateway.marvel.com/v1/public/characters/' + id,
-                    data: parametros
+                    data: parametros,
+                    success: function(retornoDaMarvel){
+                        callback(retornoDaMarvel);
+                    }
                 });
             }
             
             function buscarPersonagens() {
                 
+                $.ajax({
+                    url: 'https://gateway.marvel.com/v1/public/characters',
+                    data: parametros,
+                    success: function(retornoDaMarvel){
+                        
+                        var listaDePersonagens = retornoDaMarvel.data.results;
+                        
+                        for (var i = 0; i < 20; i++) {
+                            
+                            var path = listaDePersonagens[i].thumbnail.path;
+                            var extension = listaDePersonagens[i].thumbnail.extension;
+                            var caminhoImagem = path + '.' + extension;
+                            
+                            var nome = listaDePersonagens[i].name;
+                            var id = listaDePersonagens[i].id;
+                            
+                            var htmlEstrutura = '<li>\n\
+                                                    <img class="thumbnail-imagem" src="'+caminhoImagem+'" alt="alt" /> - \n\
+                                                    <label>'+nome+'</label> - \n\
+                                                    <button class="informacoes-personagem">'+id+'</button>\n\
+                                                 </li>';
+
+                            $('#lista-de-personagens').append(htmlEstrutura); 
+                            
+                        }
+                    }
+                });
             }
-
-
+            
+            
+            $('html').on('click', '.informacoes-personagem', function(){
+                
+                var botaoClicado = $(this);
+                
+                var conteudoBotaoClicado = botaoClicado.text();
+                
+                buscarDadosPersonagem(conteudoBotaoClicado, function(resultadoDaBusca){
+                    console.log(resultadoDaBusca);
+                });
+            })  
         })
 
     </script>
